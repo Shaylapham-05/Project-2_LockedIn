@@ -1,11 +1,40 @@
-<!DOCTYPE  html>
-<html lang="en"></html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <title>LockedIn</title>
-     <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LockedIn</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div class="container">
+    <aside class="sidebar">
+      <h2>LockedIn</h2>
+      <button>Home (Schedule)</button>
+      <button>Load Dataset</button>
+      <button>View Tasks</button>
+      <button>Choose Algorithm</button>
+      <button>Compare Algorithms</button>
+      <button>Export Charts</button>
+    </aside>
+
+    <main class="content">
+      <div class="top-bar">
+        <button class="load-btn">Load Dataset</button>
+        <button class="export-btn">Add to Google Calendar</button>
+      </div>
+      <div class="calendar">
+        <div class="day">Sun</div>
+        <div class="day">Mon</div>
+        <div class="day">Tue</div>
+        <div class="day">Wed</div>
+        <div class="day">Thu</div>
+        <div class="day">Fri</div>
+        <div class="day">Sat</div>
+      </div>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>

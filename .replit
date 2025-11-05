@@ -1,9 +1,8 @@
-modules = ["cpp-clang14", "cpp-clang"]
+run = "python3 -m http.server 8000"
+modules = ["python-3.11"]
+
 [agent]
 expertMode = true
-
-[nix]
-channel = "stable-25_05"
 
 [workflows]
 runButton = "Project"
@@ -23,7 +22,12 @@ author = "agent"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "make run"
+args = "python3 server.py"
+waitForPort = 5000
 
 [workflows.workflow.metadata]
-outputType = "console"
+outputType = "webview"
+
+[[ports]]
+localPort = 5000
+externalPort = 80
