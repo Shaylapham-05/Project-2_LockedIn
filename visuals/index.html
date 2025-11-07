@@ -1,40 +1,127 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LockedIn</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LockedIn Calendar</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
-  <div class="container">
-    <aside class="sidebar">
-      <h2>LockedIn</h2>
-      <button>Home (Schedule)</button>
-      <button>Load Dataset</button>
-      <button>View Tasks</button>
-      <button>Choose Algorithm</button>
-      <button>Compare Algorithms</button>
-      <button>Export Charts</button>
-    </aside>
+ 
+  <aside class="navbar">
+    <div class="logo">LockedIn</div>
+    <nav>
+      <a href="#">Dashboard</a>
+      <a href="#" class="active">Calendar</a>
+      <a href="#">Schedule</a>
+      <a href="#">Analytics</a>
+    </nav>
+  </aside>
 
-    <main class="content">
-      <div class="top-bar">
-        <button class="load-btn">Load Dataset</button>
-        <button class="export-btn">Add to Google Calendar</button>
-      </div>
-      <div class="calendar">
-        <div class="day">Sun</div>
-        <div class="day">Mon</div>
-        <div class="day">Tue</div>
-        <div class="day">Wed</div>
-        <div class="day">Thu</div>
-        <div class="day">Fri</div>
-        <div class="day">Sat</div>
-      </div>
-    </main>
-  </div>
 
-  <script src="script.js"></script>
+  <main class="app">
+    <section class="calendar-layout">
+
+    
+      <div class="month-scroll" id="monthList">
+        <div class="month-item faded">December</div>
+        <div class="month-item faded">January</div>
+        <div class="month-item active">April</div>
+        <div class="month-item faded">May</div>
+        <div class="month-item faded">June</div>
+        <div class="month-item faded">July</div>
+        <div class="month-item faded">August</div>
+        <div class="month-item faded">September</div>
+        <div class="month-item faded">October</div>
+        <div class="month-item faded">November</div>
+      </div>
+
+   
+      <div class="calendar-container">
+        <header class="calendar-header">
+          <h2 id="month-name">April 2025</h2>
+          <div class="dropdown">
+            <button class="icon-btn" id="modeButton">⋮</button>
+            <div class="dropdown-content">
+              <a href="#">Priority</a>
+              <a href="#">Longevity</a>
+              <a href="#">Difficulty</a>
+            </div>
+          </div>
+        </header>
+
+        <div class="weekdays">
+          <div>Sun</div><div>Mon</div><div>Tue</div>
+          <div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
+        </div>
+
+        <div class="calendar-grid" id="calendarGrid"></div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const grid = document.getElementById("calendarGrid");
+    const monthList = document.getElementById("monthList");
+    const monthName = document.getElementById("month-name");
+
+    function renderCalendar() {
+      grid.innerHTML = "";
+
+     
+      const prevDays = [30, 31];
+      prevDays.forEach(d => {
+        grid.innerHTML += `<div class='day faded'>${d}</div>`;
+      });
+
+     
+      for (let d = 1; d <= 30; d++) 
+      {
+        grid.innerHTML += `<div class='day'>${d}</div>`;
+      }
+
+      
+      for (let d = 1; d <= 3; d++) 
+      {
+        grid.innerHTML += `<div class='day faded'>${d}</div>`;
+        
+      }
+    }
+    renderCalendar();
+
+   
+    monthList.addEventListener("scroll", () => {
+      const items = document.querySelectorAll(".month-item");
+      const middle = window.innerHeight / 2;
+      items.forEach(item => {
+        const rect = item.getBoundingClientRect();
+        const distance = Math.abs(rect.top - middle + 100);
+        const opacity = Math.max(0.3, 1 - distance / 250);
+        item.style.opacity = opacity;
+      });
+    });
+
+   
+    monthList.addEventListener("click", (e) => {
+      if (e.target.classList.contains("month-item")) {
+        document.querySelectorAll(".month-item").forEach((m) => {
+          m.classList.remove("active");
+        });
+        e.target.classList.add("active");
+        monthName.textContent = e.target.textContent + " 2025";
+      }
+    });
+
+    
+    const modeButton = document.getElementById("modeButton");
+    const dropdown = document.querySelector(".dropdown-content");
+    modeButton.addEventListener("click", () => {
+      dropdown.classList.toggle("show");
+    });
+    window.addEventListener("click", (e) => {
+      if (!modeButton.contains(e.target)) dropdown.classList.remove("show");
+    });
+  </script>
 </body>
 </html>
