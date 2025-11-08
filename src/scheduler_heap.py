@@ -6,7 +6,7 @@ def schedule_minheap(assignments: List[Assignment]) -> List[Tuple[Assignment, fl
     #orders by earliest due date, tie-break by higher raw_priority, then longer/harder.
     #returns list of (assignment, start_h, finish_h).
 
-    key = lambda a: (a.due_date, -a.raw_priority, -a.longevity, -a.complexity)
+    key = lambda a: (a.due_date, -a.raw_priority, -a.longevity, -a.value)
     heap = MinHeap(key=key)
     for a in assignments:
         heap.push(a)
