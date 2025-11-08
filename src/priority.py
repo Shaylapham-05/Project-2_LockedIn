@@ -1,5 +1,5 @@
 #general formula we are using to calculcate priority of each assignment based on its attributes
-#priority formula: raw = 0.55*T + 0.30*L + 0.15*C
+
 
 urgent_window = 48.0 # 2 days
 longer_task = 12.0  # hours for scaling L factor
