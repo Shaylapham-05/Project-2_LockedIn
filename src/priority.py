@@ -1,7 +1,7 @@
 #general formula we are using to calculcate priority of each assignment based on its attributes
 #priority formula: raw = 0.55*T + 0.30*L + 0.15*C
 
-one_week = 168.0 # hours in one week
+urgent_window = 48.0 # 2 days
 longer_task = 12.0  # hours for scaling L factor
 
 def clamp(x, lo=0.0, hi=1.0): 
@@ -9,7 +9,7 @@ def clamp(x, lo=0.0, hi=1.0):
 
 def calculate_priority(due_date: float, longevity: float, complexity: int):
     slack = due_date -longevity
-    T = clamp(1.0 - (slack / one_week))
+    T = clamp(1.0 - (slack / urgent_window))
     L = clamp((longevity) / longer_task)
     C = clamp((complexity-1) / 4.0) 
 
