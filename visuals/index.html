@@ -21,41 +21,27 @@
       <a href="#">Dashboard</a>
       <a href="#" class="active">Calendar</a>
       <a href="#">Schedule</a>
-      <a href="#">Analytics</a>
+     
     </nav>
   </aside>
 
-
   <main class="app">
     <section class="calendar-layout">
-
-    
-      <div class="month-scroll" id="monthList">
-        <div class="month-item faded">December</div>
-        <div class="month-item faded">January</div>
-        <div class="month-item active">April</div>
-        <div class="month-item faded">May</div>
-        <div class="month-item faded">June</div>
-        <div class="month-item faded">July</div>
-        <div class="month-item faded">August</div>
-        <div class="month-item faded">September</div>
-        <div class="month-item faded">October</div>
-        <div class="month-item faded">November</div>
-      </div>
-
-   
       <div class="calendar-container">
+        <!-- 3 dots moved here -->
+        <div class="dropdown">
+          <button class="icon-btn" id="modeButton">⋮</button>
+          <div class="dropdown-content">
+
+            <a href="#" data-mode="priority">Priority & Deadline</a>
+            <a href="#" data-mode="longevity">Longevity Balance</a>
+            <a href="#" data-mode="difficulty">Difficulty Based</a>
+         
+          </div>
+        </div>
+
         <header class="calendar-header">
           <h2 id="month-name">April 2025</h2>
-          <div class="dropdown">
-            <button class="icon-btn" id="modeButton">⋮</button>
-            <div class="dropdown-content">
-              <a href="#" data-mode="priority">Priority & Deadline</a>
-              <a href="#" data-mode="longevity">Longevity Balance</a>
-              <a href="#" data-mode="difficulty">Difficulty Based</a>
-              <a href="#" data-mode="burnout">Burnout Prevention</a>
-            </div>
-          </div>
         </header>
 
         <div class="weekdays">
@@ -70,66 +56,33 @@
 
   <script>
     const grid = document.getElementById("calendarGrid");
-    const monthList = document.getElementById("monthList");
     const monthName = document.getElementById("month-name");
 
     function renderCalendar() {
       grid.innerHTML = "";
 
-     
       const prevDays = [30, 31];
       prevDays.forEach(d => {
         grid.innerHTML += `<div class='day faded'>${d}</div>`;
       });
 
-     
-      for (let d = 1; d <= 30; d++) 
-      {
+      for (let d = 1; d <= 30; d++) {
         grid.innerHTML += `<div class='day'>${d}</div>`;
       }
 
-      
-      for (let d = 1; d <= 3; d++) 
-      {
+      for (let d = 1; d <= 3; d++) {
         grid.innerHTML += `<div class='day faded'>${d}</div>`;
-        
       }
     }
     renderCalendar();
 
-   
-    monthList.addEventListener("scroll", () => {
-      const items = document.querySelectorAll(".month-item");
-      const middle = window.innerHeight / 2;
-      items.forEach(item => {
-        const rect = item.getBoundingClientRect();
-        const distance = Math.abs(rect.top - middle + 100);
-        const opacity = Math.max(0.3, 1 - distance / 250);
-        item.style.opacity = opacity;
-      });
-    });
-
-   
-    monthList.addEventListener("click", (e) => {
-      if (e.target.classList.contains("month-item")) {
-        document.querySelectorAll(".month-item").forEach((m) => {
-          m.classList.remove("active");
-        });
-        e.target.classList.add("active");
-        monthName.textContent = e.target.textContent + " 2025";
-      }
-    });
-
-    
     const modeButton = document.getElementById("modeButton");
     const dropdown = document.querySelector(".dropdown-content");
     modeButton.addEventListener("click", () => {
       dropdown.classList.toggle("show");
     });
-    window.addEventListener("click", (e) => {
-      if (!modeButton.contains(e.target)) dropdown.classList.remove("show");
-    });
   </script>
+
   <script src="script.js"></script>
 </body>
 </html>
