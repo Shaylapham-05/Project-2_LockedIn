@@ -2,11 +2,7 @@ from typing import List, Tuple, Dict
 from assignment import Assignment
 
 def build_buckets(assignments: List['Assignment']) -> Dict[int, List['Assignment']]:
-<<<<<<< HEAD
-# Create buckets for priorities 1 to 5 and sort assignments within each bucket
-=======
 #buckets for priorities 1 to 5 and sort assignments within each bucket
->>>>>>> cce9e00dfceaa78ee95850c2823a243575ab1d51
     buckets: Dict[int, List['Assignment']] = {i: [] for i in range(1, 6)}
     for a in assignments:
         if 1 <= a.priority <= 5:
@@ -23,11 +19,7 @@ def build_buckets(assignments: List['Assignment']) -> Dict[int, List['Assignment
     return buckets
 
 def schedule_from_buckets(assignments: List['Assignment']) -> List[Tuple['Assignment', float, float]]:
-<<<<<<< HEAD
-# Schedule assignments from highest to lowest priority and iterate through pre-sorted list within each bucket
-=======
 # schedule assignments from highest to lowest priority and iterate through pre-sorted list within each bucket
->>>>>>> cce9e00dfceaa78ee95850c2823a243575ab1d51
     buckets = build_buckets(assignments)
     clock = 0.0
     schedule: List[Tuple['Assignment', float, float]] = []
@@ -37,8 +29,4 @@ def schedule_from_buckets(assignments: List['Assignment']) -> List[Tuple['Assign
             end_time = start_time + a.longevity
             schedule.append((a, start_time, end_time))
             clock = end_time
-<<<<<<< HEAD
     return schedule
-=======
-    return schedule
->>>>>>> cce9e00dfceaa78ee95850c2823a243575ab1d51
