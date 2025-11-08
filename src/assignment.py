@@ -12,7 +12,7 @@ class Assignment:
     raw_priority: float = 0.0
     priority: int = 1
 
-def __post_init__(self):
+    def __post_init__(self):
         # compute priority at construction
         self.raw_priority, self.priority = calculate_priority(
             self.due_date, self.longevity, self.complexity
