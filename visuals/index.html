@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -11,7 +11,12 @@
   <button id="runBtn">Run Algorithm</button>
 
   <aside class="navbar">
-    <div class="logo">LockedIn</div>
+    <div class="logo">
+      <span>LockedIn</span>
+      <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme">
+        <span class="theme-icon">🌙</span>
+      </button>
+    </div>
     <nav>
       <a href="#">Dashboard</a>
       <a href="#" class="active">Calendar</a>
@@ -45,9 +50,10 @@
           <div class="dropdown">
             <button class="icon-btn" id="modeButton">⋮</button>
             <div class="dropdown-content">
-              <a href="#">Priority</a>
-              <a href="#">Longevity</a>
-              <a href="#">Difficulty</a>
+              <a href="#" data-mode="priority">Priority & Deadline</a>
+              <a href="#" data-mode="longevity">Longevity Balance</a>
+              <a href="#" data-mode="difficulty">Difficulty Based</a>
+              <a href="#" data-mode="burnout">Burnout Prevention</a>
             </div>
           </div>
         </header>
