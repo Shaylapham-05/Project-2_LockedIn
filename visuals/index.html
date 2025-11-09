@@ -10,6 +10,7 @@
 <body>
   <button id="runBtn">Run Algorithm</button>
 
+
   <aside class="navbar">
     <div class="logo">
       <span>LockedIn</span>
@@ -18,24 +19,22 @@
       </button>
     </div>
     <nav>
-      <a href="#">Dashboard</a>
-      <a href="#" class="active">Calendar</a>
+      <a href="/dashboard">Dashboard</a>
+      <a href="/" class="active">Calendar</a>
       <a href="#">Schedule</a>
-     
+      
     </nav>
   </aside>
 
   <main class="app">
     <section class="calendar-layout">
       <div class="calendar-container">
-        <!-- 3 dots moved here -->
         <div class="dropdown">
           <button class="icon-btn" id="modeButton">⋮</button>
           <div class="dropdown-content">
-
-            <a href="#" data-mode="priority">Priority & Deadline</a>
-            <a href="#" data-mode="longevity">Longevity Balance</a>
-            <a href="#" data-mode="difficulty">Difficulty Based</a>
+            <a href="#" data-mode="priority">Priority</a>
+            <a href="#" data-mode="longevity">Longevity</a>
+            <a href="#" data-mode="difficulty">Difficulty</a>
          
           </div>
         </div>
@@ -56,7 +55,6 @@
 
   <script>
     const grid = document.getElementById("calendarGrid");
-    const monthName = document.getElementById("month-name");
 
     function renderCalendar() {
       grid.innerHTML = "";
@@ -76,13 +74,18 @@
     }
     renderCalendar();
 
+    
     const modeButton = document.getElementById("modeButton");
     const dropdown = document.querySelector(".dropdown-content");
     modeButton.addEventListener("click", () => {
       dropdown.classList.toggle("show");
     });
-  </script>
 
-  <script src="script.js"></script>
+    const toggle = document.getElementById("themeToggle");
+    toggle.addEventListener("click", () => {
+      const html = document.documentElement;
+      html.dataset.theme = html.dataset.theme === "light" ? "dark" : "light";
+    });
+  </script>
 </body>
 </html>
