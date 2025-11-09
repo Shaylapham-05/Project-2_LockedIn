@@ -15,6 +15,9 @@ def schedule_minheap(assignments: List[Assignment]) -> List[Tuple[Assignment, fl
     schedule: List[Tuple[Assignment, float, float]] = []
     while not heap.is_empty():
         a = heap.pop()
+        if a.due_date < clock:
+            #give up and skip if due date passed
+            continue
         start, finish = clock, clock + a.longevity
         clock = finish
         schedule.append((a, start, finish))

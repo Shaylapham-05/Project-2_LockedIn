@@ -25,6 +25,9 @@ def schedule_from_buckets(assignments: List['Assignment']) -> List[Tuple['Assign
     schedule: List[Tuple['Assignment', float, float]] = []
     for p in range(5, 0, -1):
         for a in buckets[p]:
+            if a.due_date < clock:
+            #give up and skip if due date passed
+                continue
             start_time = clock
             end_time = start_time + a.longevity
             schedule.append((a, start_time, end_time))
