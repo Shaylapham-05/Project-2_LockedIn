@@ -144,24 +144,24 @@ def main():
         
     total_tasks_in = len(student_tasks)
 
-    # --- Run Min-Heap Scheduler ---
+    # run Min-Heap Scheduler
     print("Running Min-Heap (Earliest Deadline First) scheduler...")
     start_time = time.perf_counter()
     schedule_heap = schedule_minheap(student_tasks)
     end_time = time.perf_counter()
     exec_time_heap = end_time - start_time
     
-    # --- Run Priority Bucket Scheduler ---
+    #run Priority Bucket Scheduler
     print("Running Priority Bucket scheduler...")
     start_time = time.perf_counter()
     schedule_bucket = schedule_from_buckets(student_tasks)
     end_time = time.perf_counter()
     exec_time_bucket = end_time - start_time
 
-    # --- Compute Metrics ---
+  
     print("\nComputing metrics...")
     
-    # --- UPDATED: Pass total_tasks_in to compute_metrics ---
+    #total_tasks_in to compute_metrics
     metrics_heap = compute_metrics(schedule_heap, total_tasks_in)
     metrics_heap['exec_time'] = exec_time_heap
     metrics_heap['total_tasks_in'] = total_tasks_in
@@ -170,7 +170,7 @@ def main():
     metrics_bucket['exec_time'] = exec_time_bucket
     metrics_bucket['total_tasks_in'] = total_tasks_in
     
-    # --- Print Results ---
+    # print results
     print_comparison_table(metrics_heap, metrics_bucket)
     
     print("\nProject execution complete.")
