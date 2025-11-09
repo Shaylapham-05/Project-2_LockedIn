@@ -2,10 +2,62 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Dashboard</title>
+  <title>LockedIn Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+  <script defer>
+    async function fetchMetrics() {
+      const res = await fetch('/run', { method: 'POST' });
+      const data = await res.json();
+      if (data.status !== "success") return;
+
+      document.getElementById('tasksScheduled').textContent = data.tasks_scheduled;
+      document.getElementById('edfExec').textContent = data.edf_time_ms.toFixed(3);
+      document.getElementById('bucketExec').textContent = data.bucket_time_ms.toFixed(3);
+
+      const edfOnTime = data.edf_metrics && data.edf_metrics.success_rate ? data.edf_metrics.success_rate * 100 : 0;
+      document.getElementById('onTimeRate').textContent = edfOnTime.toFixed(2) + "%";
+    }
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      html.dataset.theme = html.dataset.theme === "dark" ? "light" : "dark";
+    }
+
+    window.onload = fetchMetrics;
+  </script>
 </head>
 <body>
-  <h1>Dashboard Loaded</h1>
-  <p>If you see this, Flask routing works correctly.</p>
+  <header class="navbar">
+    <div class="logo">LockedIn</div>
+    <nav>
+      <a href="/">Dashboard</a>
+      <a href="/calendar">Calendar</a>
+      <a href="/schedule">Schedule</a>
+      <a href="/analytics">Analytics</a>
+    </nav>
+    <button id="themeToggle" onclick="toggleTheme()">🌙</button>
+  </header>
+
+  <main class="dashboard-container">
+    <h1>LockedIn Dashboard</h1>
+    <section class="metrics">
+      <div class="metric-card">
+        <h2>Tasks Scheduled</h2>
+        <p id="tasksScheduled">--</p>
+      </div>
+      <div class="metric-card">
+        <h2>EDF Execution (ms)</h2>
+        <p id="edfExec">--</p>
+      </div>
+      <div class="metric-card">
+        <h2>Bucket Execution (ms)</h2>
+        <p id="bucketExec">--</p>
+      </div>
+      <div class="metric-card">
+        <h2>On-Time Rate (%)</h2>
+        <p id="onTimeRate">--</p>
+      </div>
+    </section>
+  </main>
 </body>
 </html>
