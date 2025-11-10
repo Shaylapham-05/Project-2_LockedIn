@@ -1,0 +1,5 @@
+#this file automatically installs flask onto anyones computer who tries to run our project 
+flask
+pandas
+tarsafe
+flask

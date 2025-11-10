@@ -1,0 +1,75 @@
+Team Name: LockedIn
+Team Members: Shreya Rajaram, Soni Reddy, Shayla Pham
+Project Title
+Problem: What problem are we trying to solve?
+Many students struggle to prioritize which tasks to complete first, resulting
+in missed deadlines, rushed submissions, and stress. Our goal is to
+create an Assignment Optimizer that will propose the ideal order for
+completing tasks to reduce lateness and workload pressure.
+Motivation: Why is this a problem?
+College students frequently struggle to manage overlapping deadlines
+and underestimate how long assignments will take. Without a data-driven
+strategy, they frequently assume priorities, causing additional stress and
+poor results. A scheduling assistant that employs algorithms to determine
+the optimal task order of completion can resolve this.
+Features: When do we know that we have solved the problem? [0.25 point]
+We can solve this problem by predicting the task duration from complexity
+and type to simulate real workloads of a dataset of 100,000+ tasks. To
+schedule tasks, we will use the Earliest Deadline First and Shortest Job
+First algorithms. We will assess the lateness and total completion times of
+both methods. We will generate a day-by-day schedule outlining which
+things to complete and when.
+Data: (Public data set we will be using and the link to the public data set) or (Schema of
+randomly generated data - i.e. what are the different columns in our dataset and the
+respective datatypes)
+The dataset will be synthetically generated to simulate student assignments.
+It will contain 100,000 or more tasks to meet project requirements.
+Each entry represents one assignment with the following fields:
+a. assignment_id (int): Unique identifier for each task
+b. assignment_name (string): Randomly generated name (e.g., “Project 3” or
+“Essay Draft”)
+c. due_date (float): Number of hours or days until the deadline
+d. longevity (float): Estimated duration or time needed to complete the task (in
+hours)
+e. complexity (int): Difficulty level from 1–5 (used to estimate longevity)
+f. priority (int): Optional manual importance rating (1–5)
+Tools: Programming languages or any tools/frameworks we will be using [0.25 point] :
+Language: C++
+Libraries: vector, algorithm, chrono, fstream
+Optional: Python + Matplotlib for runtime charts
+Environment: VS Code or CLion
+Visuals: Wireframes
+Links to an external site.
+Sketches of the interface or the menu driven program [0.25 points]
+Strategy: Preliminary algorithms or data structures you may want to implement and how
+would you represent the data [0.25 points]
+Implement two non-trivial schedulers using manual heaps.
+● Earliest Deadline First (EDF): Min-Heap keyed by deadline to minimize lateness.
+● Shortest Job First (SJF): Min-Heap keyed by duration to maximize throughput.
+Represent each assignment as a Task struct with duration and deadline.
+Use array-based heap operations (insert, extractMin, heapify).
+Accumulate durations until 24 hours to auto-assign daily time blocks.
+Distribution of Responsibility and Roles: Who is responsible for what?
+Soni Reddy
+● Role: Algorithm Lead
+● Responsibilities:
+○ Implement both Earliest Deadline First (EDF) and Shortest Job First (SJF)
+scheduling algorithms.
+○ Design and test the heap-based task scheduling system.
+○ Record performance metrics (runtime and total lateness).
+Shreya Rajaram
+● Role: Data Engineer
+● Responsibilities:
+○ Generate the synthetic dataset of 100,000+ tasks using C++.
+○ Handle input/output file management.
+○ Validate data accuracy and distribution for realistic scheduling simulation.
+Shayla Pham
+● Role: Visualization and Testing Lead
+● Responsibilities:
+○ Create the CLI interface and wireframe design.
+○ Compare algorithm results and display the best-performing schedule.
+○ Prepare visuals and charts for the final presentation and report.
+References
+1) https://www.ptc.edu/college-resources/academic-resources/academic-self-help-ti
+ps/time-management
+2) https://pmc.ncbi.nlm.nih.gov/articles/PMC11967054/

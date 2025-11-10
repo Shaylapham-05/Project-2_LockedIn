@@ -1,5 +1,5 @@
 from typing import List, Tuple, Dict
-from assignment import Assignment
+from src.assignment import Assignment
 
 def build_buckets(assignments: List['Assignment']) -> Dict[int, List['Assignment']]:
 #buckets for priorities 1 to 5 and sort assignments within each bucket
@@ -11,10 +11,10 @@ def build_buckets(assignments: List['Assignment']) -> Dict[int, List['Assignment
             pass
     for p in buckets:
         buckets[p].sort(key=lambda a: (
-            a.due_date,      #1st: ascending due date (earliest first)
-            -a.raw_priority, #2nd: descending raw priority (highest first- 5 (highest) to 1 (lowest))
+            -a.raw_priority, #1st: descending raw priority (highest first- 5 (highest) to 1 (lowest)
+            -a.due_date,      #2nd: ascending due date (earliest first)
             -a.longevity,    #3rd: descending longevity (longest first)
-            -a.complexity    #4th: descending complexity (highest complex first)
+            -a.value    #4th: descending complexity (highest complex first)
             ))
     return buckets
 

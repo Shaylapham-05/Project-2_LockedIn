@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from priority import calculate_priority
+from src.priority import calculate_priority
 
 @dataclass
 class Assignment:
@@ -8,12 +8,12 @@ class Assignment:
     assignment_type: str
     due_date: float       # hours until deadline
     longevity: float      # est hours to complete
-    complexity: int       # 1–5
+    value: int       # 1–5
     raw_priority: float = 0.0
     priority: int = 1
 
     def __post_init__(self):
         # compute priority at construction
         self.raw_priority, self.priority = calculate_priority(
-            self.due_date, self.longevity, self.complexity
+            self.due_date, self.longevity, self.value
         )

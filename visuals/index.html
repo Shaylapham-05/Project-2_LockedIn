@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LockedIn Calendar</title>
+    <link rel="stylesheet" href="/style.css" />
+</head>
+
+<body>
+    <button id="runBtn">Run Algorithm</button>
+
+    <aside class="navbar">
+        <div class="logo">
+            <span>LockedIn</span>
+            <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme">
+                <span class="theme-icon">🌙</span>
+            </button>
+        </div>
+        <nav>
+            <a href="/dashboard">Dashboard</a>
+            <a href="/" class="active">Calendar</a>
+            <a href="#">Schedule</a>
+        </nav>
+    </aside>
+
+    <main class="app">
+        <section class="calendar-layout">
+            <div class="calendar-container">
+                <div class="dropdown">
+                    <button class="icon-btn" id="modeButton">⋮</button>
+                    <div class="dropdown-content">
+                        <a href="#" data-mode="priority">Priority</a>
+                        <a href="#" data-mode="longevity">Longevity</a>
+                        <a href="#" data-mode="difficulty">Difficulty</a>
+                    </div>
+                </div>
+
+                <header class="calendar-header">
+                    <h2 id="month-name">April 2025</h2>
+                </header>
+
+                <div class="weekdays">
+                    <div>Sun</div><div>Mon</div><div>Tue</div>
+                    <div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
+                </div>
+
+                <div class="calendar-grid" id="calendarGrid"></div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const grid = document.getElementById("calendarGrid");
+
+        function renderCalendar() {
+            grid.innerHTML = "";
+
+            const prevDays = [30, 31];
+            prevDays.forEach(d => {
+                grid.innerHTML += `<div class='day faded'>${d}</div>`;
+            });
+
+            for (let d = 1; d <= 30; d++) {
+                grid.innerHTML += `<div class='day'>${d}</div>`;
+            }
+
+            for (let d = 1; d <= 3; d++) {
+                grid.innerHTML += `<div class='day faded'>${d}</div>`;
+            }
+        }
+        renderCalendar();
+
+        const modeButton = document.getElementById("modeButton");
+        const dropdown = document.querySelector(".dropdown-content");
+        modeButton.addEventListener("click", () => {
+            dropdown.classList.toggle("show");
+        });
+
+        const toggle = document.getElementById("themeToggle");
+        toggle.addEventListener("click", () => {
+            const html = document.documentElement;
+            html.dataset.theme = html.dataset.theme === "light" ? "dark" : "light";
+        });
+    </script>
+</body>
+</html>
