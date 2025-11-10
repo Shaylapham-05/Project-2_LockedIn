@@ -5,26 +5,167 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Scheduler Dashboard</title>
   <link rel="stylesheet" href="/style.css">
+  <style>
+    main {
+      flex: 1;
+      padding: 3rem;
+      margin-left: 250px;
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 2rem;
+      color: var(--text-primary);
+    }
+
+    .input-section {
+      background: #2f2646;
+      border-radius: 20px;
+      padding: 1.8rem 2.5rem;
+      box-shadow: var(--shadow-md);
+      width: 600px;
+      margin-bottom: 2rem;
+    }
+
+    label {
+      margin-right: 0.5rem;
+      font-weight: 500;
+    }
+
+    input {
+      background: var(--bg-day);
+      border: none;
+      border-radius: 8px;
+      padding: 0.5rem;
+      color: var(--text-primary);
+      width: 80px;
+      text-align: center;
+      margin-right: 1rem;
+    }
+
+    .run-dropdown {
+      position: relative;
+      display: inline-block;
+      margin-top: 1rem;
+    }
+
+    .run-btn {
+      background-color: var(--accent-primary);
+      color: white;
+      padding: 0.9rem 1.6rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.3s;
+    }
+
+    .run-btn:hover {
+      background-color: var(--accent-hover);
+    }
+
+    .dropdown-options {
+      display: none;
+      position: absolute;
+      top: 110%; 
+      left: 0;
+      background-color: #3c2f57;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+      min-width: 180px;
+      z-index: 10;
+    }
+
+    .dropdown-options button {
+      background: none;
+      color: #e8e6f0;
+      padding: 0.8rem 1.2rem;
+      text-align: left;
+      width: 100%;
+      border: none;
+      cursor: pointer;
+    }
+
+    .dropdown-options button:hover {
+      background-color: #4b3a68;
+      color: white;
+    }
+
+    .run-dropdown:hover .dropdown-options {
+      display: block;
+    }
+
+    h2 {
+      margin-top: 2rem;
+      color: var(--text-primary);
+      font-size: 1.4rem;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    li {
+      margin-bottom: 0.6rem;
+      background: var(--bg-day);
+      padding: 0.8rem 1rem;
+      border-radius: 8px;
+      width: 340px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: var(--shadow-sm);
+    }
+
+    strong {
+      color: var(--accent-primary);
+    }
+  </style>
 </head>
+
 <body>
-  <h1>Scheduler Dashboard</h1>
-  <div>
-    <label>Time Window (hours):</label>
-    <input type="number" id="timeWindow" value="168">
-    <label>Workload (hours):</label>
-    <input type="number" id="workload" value="60">
-    <button id="runHeap">Run Heap</button>
-    <button id="runBucket">Run Bucket</button>
-  </div>
-  <h2>Results</h2>
-  <ul>
-    <li><strong>Execution Time:</strong> <span id="execTime">-</span> ms</li>
-    <li><strong>Total Tasks:</strong> <span id="totalTasks">-</span></li>
-    <li><strong>Makespan:</strong> <span id="makespan">-</span> hrs</li>
-    <li><strong>Tasks On Time:</strong> <span id="tasksOnTime">-</span></li>
-    <li><strong>Tasks Late:</strong> <span id="tasksLate">-</span></li>
-    <li><strong>On-Time Rate:</strong> <span id="onTimeRate">-</span></li>
-  </ul>
-  <script src="/script.js"></script>
+  <aside class="navbar">
+    <div class="logo"><span>LockedIn</span></div>
+    <nav>
+      <a href="/dashboard" class="active">Dashboard</a>
+      <a href="/">Calendar</a>
+      <a href="#">Schedule</a>
+      <a href="#">Analytics</a>
+    </nav>
+  </aside>
+
+  <main>
+    <h1>Scheduler Dashboard</h1>
+
+    <div class="input-section">
+      <label>Time Window (hours):</label>
+      <input type="number" id="timeWindow" value="168">
+      <label>Workload (hours):</label>
+      <input type="number" id="workload" value="60">
+
+      <div class="run-dropdown">
+        <button class="run-btn">Run Algorithm ▾</button>
+        <div class="dropdown-options">
+          <button id="runHeap">Run Heap</button>
+          <button id="runBucket">Run Bucket</button>
+        </div>
+      </div>
+    </div>
+
+    <h2>Results</h2>
+    <ul>
+      <li><strong>Execution Time:</strong> <span id="execTime">-</span> ms</li>
+      <li><strong>Total Tasks:</strong> <span id="totalTasks">-</span></li>
+      <li><strong>Makespan:</strong> <span id="makespan">-</span> hrs</li>
+      <li><strong>Tasks On Time:</strong> <span id="tasksOnTime">-</span></li>
+      <li><strong>Tasks Late:</strong> <span id="tasksLate">-</span></li>
+      <li><strong>On-Time Rate:</strong> <span id="onTimeRate">-</span></li>
+    </ul>
+
+    <script src="/script.js"></script>
+  </main>
 </body>
 </html>
