@@ -1,6 +1,6 @@
 #will calculate performance metrics for different scheduling algorithms
 from typing import List, Tuple, Dict, Any
-from assignment import Assignment
+from src.assignment import Assignment
 
 # schedule is a list of tuples: (Assignment, start_time, finish_time)
 Schedule = List[Tuple[Assignment, float, float]]

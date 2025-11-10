@@ -1,5 +1,5 @@
 from typing import List, Tuple, Dict
-from assignment import Assignment
+from src.assignment import Assignment
 
 def build_buckets(assignments: List['Assignment']) -> Dict[int, List['Assignment']]:
 #buckets for priorities 1 to 5 and sort assignments within each bucket

@@ -1,58 +1,36 @@
-const themeToggle = document.getElementById('themeToggle');
-const html = document.documentElement;
-const themeIcon = document.querySelector('.theme-icon');
-
-function setTheme(theme) {
-  html.setAttribute('data-theme', theme);
-  localStorage.setItem('theme', theme);
-  themeIcon.textContent = theme === 'light' ? '🌙' : '☀️';
-}
-
-const savedTheme = localStorage.getItem('theme') || 'light';
-setTheme(savedTheme);
-
-themeToggle.addEventListener('click', () => {
-  const currentTheme = html.getAttribute('data-theme');
-  const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-  setTheme(newTheme);
-});
-
-let currentMode = 'priority';
-
-document.querySelectorAll('.dropdown-content a').forEach(link => {
-  link.addEventListener('click', (e) => {
-    e.preventDefault();
-    currentMode = e.target.getAttribute('data-mode');
-    console.log(`Scheduling mode changed to: ${currentMode}`);
-    document.querySelector('.dropdown-content').classList.remove('show');
-  });
-});
-
-async function sendData() {
-  const input = { 
-    mode: currentMode,
-    month: document.getElementById('month-name').textContent 
+async function runScheduler(mode) {
+  const input = {
+    mode,
+    time_window: parseFloat(document.querySelector("#timeWindow").value) || 168,
+    workload: parseFloat(document.querySelector("#workload").value) || 60
   };
-
   try {
     const response = await fetch("/run", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(input)
     });
-
-    if (response.ok) {
-      const result = await response.json();
-      console.log("Backend result:", result);
-      alert(`Algorithm executed with ${currentMode} mode!`);
-    } else {
-      console.error('Server error:', response.status);
-      alert('Algorithm is ready to run with mode: ' + currentMode);
+    
+    const result = await response.json();
+    if (result.error) {
+      alert("Error: " + result.error);
+      return;
+      
     }
-  } catch (error) {
-    console.log('Running in demo mode with settings:', input);
-    alert(`Running scheduler with ${currentMode} mode for ${input.month}`);
+
+    
+    document.getElementById("execTime").textContent = `${(result.exec_time * 1000).toFixed(2) ?? '-'} ms`;
+    document.getElementById("totalTasks").textContent = result.total_tasks ?? "-";
+    document.getElementById("makespan").textContent = `${result.makespan.toFixed(2) ?? '-'} hrs`;
+    document.getElementById("tasksOnTime").textContent = result.tasks_on_time ?? "-";
+    document.getElementById("tasksLate").textContent = result.tasks_late ?? "-";
+    document.getElementById("onTimeRate").textContent = `${(result.on_time_rate * 100).toFixed(0) ?? 0}%`;
+  } catch (err) 
+  {
+    alert("Backend not responding.");
   }
+  
 }
 
-document.querySelector("#runBtn").addEventListener("click", sendData);
+document.querySelector("#runHeap").addEventListener("click", () => runScheduler("heap"));
+document.querySelector("#runBucket").addEventListener("click", () => runScheduler("bucket"));

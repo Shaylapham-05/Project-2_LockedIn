@@ -2,62 +2,29 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>LockedIn Dashboard</title>
-  <link rel="stylesheet" href="style.css">
-  <script defer>
-    async function fetchMetrics() {
-      const res = await fetch('/run', { method: 'POST' });
-      const data = await res.json();
-      if (data.status !== "success") return;
-
-      document.getElementById('tasksScheduled').textContent = data.tasks_scheduled;
-      document.getElementById('edfExec').textContent = data.edf_time_ms.toFixed(3);
-      document.getElementById('bucketExec').textContent = data.bucket_time_ms.toFixed(3);
-
-      const edfOnTime = data.edf_metrics && data.edf_metrics.success_rate ? data.edf_metrics.success_rate * 100 : 0;
-      document.getElementById('onTimeRate').textContent = edfOnTime.toFixed(2) + "%";
-    }
-
-    function toggleTheme() {
-      const html = document.documentElement;
-      html.dataset.theme = html.dataset.theme === "dark" ? "light" : "dark";
-    }
-
-    window.onload = fetchMetrics;
-  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scheduler Dashboard</title>
+  <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-  <header class="navbar">
-    <div class="logo">LockedIn</div>
-    <nav>
-      <a href="/">Dashboard</a>
-      <a href="/calendar">Calendar</a>
-      <a href="/schedule">Schedule</a>
-      <a href="/analytics">Analytics</a>
-    </nav>
-    <button id="themeToggle" onclick="toggleTheme()">🌙</button>
-  </header>
-
-  <main class="dashboard-container">
-    <h1>LockedIn Dashboard</h1>
-    <section class="metrics">
-      <div class="metric-card">
-        <h2>Tasks Scheduled</h2>
-        <p id="tasksScheduled">--</p>
-      </div>
-      <div class="metric-card">
-        <h2>EDF Execution (ms)</h2>
-        <p id="edfExec">--</p>
-      </div>
-      <div class="metric-card">
-        <h2>Bucket Execution (ms)</h2>
-        <p id="bucketExec">--</p>
-      </div>
-      <div class="metric-card">
-        <h2>On-Time Rate (%)</h2>
-        <p id="onTimeRate">--</p>
-      </div>
-    </section>
-  </main>
+  <h1>Scheduler Dashboard</h1>
+  <div>
+    <label>Time Window (hours):</label>
+    <input type="number" id="timeWindow" value="168">
+    <label>Workload (hours):</label>
+    <input type="number" id="workload" value="60">
+    <button id="runHeap">Run Heap</button>
+    <button id="runBucket">Run Bucket</button>
+  </div>
+  <h2>Results</h2>
+  <ul>
+    <li><strong>Execution Time:</strong> <span id="execTime">-</span> ms</li>
+    <li><strong>Total Tasks:</strong> <span id="totalTasks">-</span></li>
+    <li><strong>Makespan:</strong> <span id="makespan">-</span> hrs</li>
+    <li><strong>Tasks On Time:</strong> <span id="tasksOnTime">-</span></li>
+    <li><strong>Tasks Late:</strong> <span id="tasksLate">-</span></li>
+    <li><strong>On-Time Rate:</strong> <span id="onTimeRate">-</span></li>
+  </ul>
+  <script src="/script.js"></script>
 </body>
 </html>

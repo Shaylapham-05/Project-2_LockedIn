@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from priority import calculate_priority
+from src.priority import calculate_priority
 
 @dataclass
 class Assignment:
