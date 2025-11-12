@@ -1,9 +1,13 @@
 from typing import List, Tuple, Dict
 <<<<<<< HEAD
+<<<<<<< HEAD
 from src.assignment import Assignment
 =======
 from assignment import Assignment
 >>>>>>> origin/shreya-data
+=======
+from src.assignment import Assignment
+>>>>>>> shayla-visuals
 
 def build_buckets(assignments: List['Assignment']) -> Dict[int, List['Assignment']]:
 #buckets for priorities 1 to 5 and sort assignments within each bucket
@@ -39,4 +43,8 @@ def schedule_from_buckets(assignments: List['Assignment']) -> List[Tuple['Assign
             end_time = start_time + a.longevity
             schedule.append((a, start_time, end_time))
             clock = end_time
+<<<<<<< HEAD
     return schedule
+=======
+    return schedule
+>>>>>>> 47f0e8cfab82e2e827f045ad984f5c29716a187b

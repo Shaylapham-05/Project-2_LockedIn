@@ -1,9 +1,13 @@
 from dataclasses import dataclass
 <<<<<<< HEAD
+<<<<<<< HEAD
 from src.priority import calculate_priority
 =======
 from priority import calculate_priority
 >>>>>>> origin/shreya-data
+=======
+from src.priority import calculate_priority
+>>>>>>> shayla-visuals
 
 @dataclass
 class Assignment:

@@ -1,11 +1,16 @@
 from typing import List, Tuple
 <<<<<<< HEAD
+<<<<<<< HEAD
 from src.minheap import MinHeap
 from src.assignment import Assignment  # if your file is 'assignment.py', change this import
 =======
 from minheap import MinHeap
 from assignment import Assignment  # if your file is 'assignment.py', change this import
 >>>>>>> origin/shreya-data
+=======
+from src.minheap import MinHeap
+from src.assignment import Assignment  # if your file is 'assignment.py', change this import
+>>>>>>> shayla-visuals
 
 def schedule_minheap(assignments: List[Assignment]) -> List[Tuple[Assignment, float, float]]:
     #orders by earliest due date, tie-break by higher raw_priority, then longer/harder.

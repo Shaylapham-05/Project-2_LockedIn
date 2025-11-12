@@ -1,10 +1,14 @@
 #will calculate performance metrics for different scheduling algorithms
 from typing import List, Tuple, Dict, Any
 <<<<<<< HEAD
+<<<<<<< HEAD
 from src.assignment import Assignment
 =======
 from assignment import Assignment
 >>>>>>> origin/shreya-data
+=======
+from src.assignment import Assignment
+>>>>>>> shayla-visuals
 
 # schedule is a list of tuples: (Assignment, start_time, finish_time)
 Schedule = List[Tuple[Assignment, float, float]]

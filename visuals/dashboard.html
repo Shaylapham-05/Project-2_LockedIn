@@ -363,21 +363,29 @@
     });
 
     async function loadDashboard() {
-      const response = await fetch('/run', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ mode: 'heap', time_window: 168, workload: 60 })
-      });
 
-      const data = await response.json();
-      const metrics = data.metrics || {};
-      allTasks = data.tasks || [];
+      const metrics = {
+        tasks_on_time: 8,
+        tasks_late: 2,
+        total_tasks_in: 10,
+        on_time_rate: 0.8
+      };
 
-      document.getElementById("tasksCompleted").textContent = metrics.tasks_on_time || 0;
-      document.getElementById("missedTasks").textContent = metrics.tasks_late || 0;
-      document.getElementById("tasksLeft").textContent = metrics.total_tasks_in || 0;
 
-      const percent = Math.round((metrics.on_time_rate || 0) * 100);
+      allTasks = [
+        { name: "Finish DSA Homework", start_time: "9:00 AM", end_time: "11:00 AM", value: 8, due_date: "2025-04-06", longevity: 2 },
+        { name: "Study for Calc Exam", start_time: "12:00 PM", end_time: "3:00 PM", value: 10, due_date: "2025-04-07", longevity: 4 },
+        { name: "Team Meeting - LockedIn", start_time: "4:00 PM", end_time: "5:00 PM", value: 6, due_date: "2025-04-06", longevity: 1 },
+        { name: "Workout", start_time: "6:00 PM", end_time: "7:00 PM", value: 5, due_date: "2025-04-06", longevity: 3 },
+        { name: "Update GitHub Repo", start_time: "8:00 PM", end_time: "9:00 PM", value: 7, due_date: "2025-04-07", longevity: 2 },
+        { name: "Read Chapter on Polymorphism", start_time: "9:30 PM", end_time: "10:30 PM", value: 4, due_date: "2025-04-06", longevity: 1 },
+      ];
+
+      document.getElementById("tasksCompleted").textContent = metrics.tasks_on_time;
+      document.getElementById("missedTasks").textContent = metrics.tasks_late;
+      document.getElementById("tasksLeft").textContent = metrics.total_tasks_in;
+
+      const percent = Math.round(metrics.on_time_rate * 100);
       document.querySelector(".progress-text").textContent = percent + "%";
 
       const circle = document.querySelector(".progress-ring__progress");
