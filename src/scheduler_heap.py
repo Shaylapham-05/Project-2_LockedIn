@@ -1,6 +1,11 @@
 from typing import List, Tuple
+<<<<<<< HEAD
 from src.minheap import MinHeap
 from src.assignment import Assignment  # if your file is 'assignment.py', change this import
+=======
+from minheap import MinHeap
+from assignment import Assignment  # if your file is 'assignment.py', change this import
+>>>>>>> origin/shreya-data
 
 def schedule_minheap(assignments: List[Assignment]) -> List[Tuple[Assignment, float, float]]:
     #orders by earliest due date, tie-break by higher raw_priority, then longer/harder.
@@ -15,6 +20,12 @@ def schedule_minheap(assignments: List[Assignment]) -> List[Tuple[Assignment, fl
     schedule: List[Tuple[Assignment, float, float]] = []
     while not heap.is_empty():
         a = heap.pop()
+<<<<<<< HEAD
+=======
+        if a.due_date < clock:
+            #give up and skip if due date passed
+            continue
+>>>>>>> origin/shreya-data
         start, finish = clock, clock + a.longevity
         clock = finish
         schedule.append((a, start, finish))

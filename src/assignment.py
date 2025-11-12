@@ -1,5 +1,9 @@
 from dataclasses import dataclass
+<<<<<<< HEAD
 from src.priority import calculate_priority
+=======
+from priority import calculate_priority
+>>>>>>> origin/shreya-data
 
 @dataclass
 class Assignment:

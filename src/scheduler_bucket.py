@@ -1,5 +1,9 @@
 from typing import List, Tuple, Dict
+<<<<<<< HEAD
 from src.assignment import Assignment
+=======
+from assignment import Assignment
+>>>>>>> origin/shreya-data
 
 def build_buckets(assignments: List['Assignment']) -> Dict[int, List['Assignment']]:
 #buckets for priorities 1 to 5 and sort assignments within each bucket
@@ -25,6 +29,12 @@ def schedule_from_buckets(assignments: List['Assignment']) -> List[Tuple['Assign
     schedule: List[Tuple['Assignment', float, float]] = []
     for p in range(5, 0, -1):
         for a in buckets[p]:
+<<<<<<< HEAD
+=======
+            if a.due_date < clock:
+            #give up and skip if due date passed
+                continue
+>>>>>>> origin/shreya-data
             start_time = clock
             end_time = start_time + a.longevity
             schedule.append((a, start_time, end_time))

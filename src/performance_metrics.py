@@ -1,11 +1,19 @@
 #will calculate performance metrics for different scheduling algorithms
 from typing import List, Tuple, Dict, Any
+<<<<<<< HEAD
 from src.assignment import Assignment
+=======
+from assignment import Assignment
+>>>>>>> origin/shreya-data
 
 # schedule is a list of tuples: (Assignment, start_time, finish_time)
 Schedule = List[Tuple[Assignment, float, float]]
 
+<<<<<<< HEAD
 def compute_metrics(schedule: Schedule) -> Dict[str, Any]:
+=======
+def compute_metrics(schedule: Schedule, total_tasks_in: int) -> Dict[str, Any]:
+>>>>>>> origin/shreya-data
     #analyzes a generated schedule and computes performance metrics.
     if not schedule:
         #default
@@ -23,6 +31,10 @@ def compute_metrics(schedule: Schedule) -> Dict[str, Any]:
     tasks_on_time = 0
     tasks_late = 0
     total_raw_priority = 0.0
+<<<<<<< HEAD
+=======
+    total_tasks_scheduled = len(schedule)
+>>>>>>> origin/shreya-data
     
     for task, start_time, finish_time in schedule:
         #lateness:how far past the due date the task finished.
@@ -37,16 +49,25 @@ def compute_metrics(schedule: Schedule) -> Dict[str, Any]:
             tasks_on_time += 1
             total_raw_priority += task.raw_priority
 
+<<<<<<< HEAD
         
+=======
+    tasks_missed = total_tasks_in - total_tasks_scheduled    
+>>>>>>> origin/shreya-data
             
     # makespan: finish time of the very last task in the schedule
     makespan = schedule[-1][2] if schedule else 0.0
     total_tasks = len(schedule)
+<<<<<<< HEAD
     on_time_rate = (tasks_on_time / total_tasks) if total_tasks > 0 else 1.0
+=======
+    success_rate = (tasks_on_time / total_tasks_in) if total_tasks_in > 0 else 1.0
+>>>>>>> origin/shreya-data
 
     avg_priority = (total_raw_priority / tasks_on_time) if total_tasks > 0 else 0.0
     
     return {
+<<<<<<< HEAD
         "total_lateness": total_lateness,
         "tasks_on_time": tasks_on_time,
         "tasks_late": tasks_late,
@@ -56,3 +77,16 @@ def compute_metrics(schedule: Schedule) -> Dict[str, Any]:
         "avg_priority": avg_priority
 
     }
+=======
+        "tasks_in_schedule": total_tasks_scheduled,
+        "makespan": makespan,
+        "avg_priority": avg_priority,
+        "total_lateness": total_lateness,
+        "tasks_on_time": tasks_on_time,
+        "tasks_late": tasks_late,
+        "tasks_missed": tasks_missed,  
+        "success_rate": success_rate,
+    }
+
+    
+>>>>>>> origin/shreya-data
