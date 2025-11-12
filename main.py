@@ -15,9 +15,6 @@ def serve_index():
 def serve_dashboard():
     return send_from_directory(VISUALS_DIR, "dashboard.html")
 
-@app.route("/schedule")
-def serve_schedule():
-    return send_from_directory(VISUALS_DIR, "schedule.html")
 
 @app.route("/analytics")
 def serve_analytics():
@@ -26,15 +23,23 @@ def serve_analytics():
 @app.route("/run", methods=["POST"])
 def run_algorithm():
     data = request.get_json()
+
+
     time_window = float(data.get("time_window", 168))
     workload = float(data.get("workload", 60))
     mode = data.get("mode", "heap")
     sort_mode = data.get("sort_mode", "priority") 
 
-    results = run_simulation(time_window, workload, sort_mode) 
+   
+    results = run_simulation(time_window, workload) 
+
+
+    if "error" in results:
+        return jsonify(results)
+
     return jsonify(results.get(mode, {}))
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     print(f"Serving Flask from: {VISUALS_DIR}")
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    app.run(host='0.0.0.0', port=0, debug=True)
