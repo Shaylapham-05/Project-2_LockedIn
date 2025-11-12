@@ -77,13 +77,10 @@ def run_simulation(time_window: float, workload: float, sort_mode: str):
                 "id": task.assignment_id,
                 "due": f"{task.due_date:.2f}",
                 "length": f"{task.longevity:.2f}",
-                "value": task.value
+                "value": task.value,
+                "assignment_type": task.assignment_type
             })
         total_tasks_in = len(student_tasks)
-
-        print(f"\n Randomly Selected Tasks ({len(student_tasks)}) for Simulation:")
-        for task in student_tasks:
-            print(f"ID: {task.assignment_id}, Due: {task.due_date:.2f}, Length: {task.longevity:.2f}, Value: {task.value}")
 
         start_heap = time.perf_counter()
         schedule_heap = schedule_minheap(student_tasks)
@@ -96,10 +93,12 @@ def run_simulation(time_window: float, workload: float, sort_mode: str):
         metrics_heap = compute_metrics(schedule_heap)
         metrics_heap["exec_time"] = exec_time_heap
         metrics_heap["total_tasks_in"] = total_tasks_in
+        metrics_heap["tasks_list"] = tasks_details
 
         metrics_bucket = compute_metrics(schedule_bucket)
         metrics_bucket["exec_time"] = exec_time_bucket
         metrics_bucket["total_tasks_in"] = total_tasks_in
+        metrics_bucket["tasks_list"] = tasks_details
 
         return {"heap": metrics_heap, "bucket": metrics_bucket}
 

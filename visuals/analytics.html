@@ -1,227 +1,239 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Analytics</title>
-  <link rel="stylesheet" href="/style.css" />
-  <style>
-    main {
-      flex: 1;
-      padding: 3rem;
-      margin-left: 250px;
-    }
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Analytics</title>
+    <link rel="stylesheet" href="/style.css" />
+    <style>
+        main {
+            flex: 1;
+            padding: 3rem;
+            margin-left: 250px;
+        }
 
-    .header {
-      font-size: 1.8rem;
-      font-weight: 700;
-      color: var(--text-primary);
-      margin-bottom: 2.5rem;
-      text-align: left;
-    }
+        .header {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 2.5rem;
+            text-align: left;
+        }
 
-    .metrics-container {
-      background: #2f2646;
-      border-radius: 22px;
-      box-shadow: var(--shadow-lg);
-      padding: 2rem 3rem;
-      width: 100%;
-      max-width: 850px;
-      margin-bottom: 3rem;
-    }
+        .metrics-container {
+            background: #2f2646;
+            border-radius: 22px;
+            box-shadow: var(--shadow-lg);
+            padding: 2rem 3rem;
+            width: 100%;
+            max-width: 850px;
+            margin-bottom: 3rem;
+        }
 
-    .metrics-container label {
-      font-weight: 500;
-      margin-right: 0.4rem;
-      color: var(--text-primary);
-    }
+        .metrics-container label {
+            font-weight: 500;
+            margin-right: 0.4rem;
+            color: var(--text-primary);
+        }
 
-    input {
-      background: var(--bg-day);
-      border: none;
-      border-radius: 8px;
-      padding: 0.6rem;
-      color: var(--text-primary);
-      width: 90px;
-      text-align: center;
-      margin-right: 1rem;
-    }
+        input {
+            background: var(--bg-day);
+            border: none;
+            border-radius: 8px;
+            padding: 0.6rem;
+            color: var(--text-primary);
+            width: 90px;
+            text-align: center;
+            margin-right: 1rem;
+        }
 
-    .run-dropdown {
-      position: relative;
-      display: inline-block;
-      margin-top: 1.2rem;
-    }
+        .run-dropdown {
+            position: relative;
+            display: inline-block;
+            margin-top: 1.2rem;
+        }
 
-    .run-btn {
-      background: linear-gradient(135deg, #875cff, #b48fff);
-      color: white;
-      padding: 0.65rem 1.2rem;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
-      font-size: 0.95rem;
-      box-shadow: 0 5px 15px rgba(135, 92, 255, 0.4);
-      transition: all 0.25s ease;
-    }
+        .run-btn {
+            background: linear-gradient(135deg, #875cff, #b48fff);
+            color: white;
+            padding: 0.65rem 1.2rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.95rem;
+            box-shadow: 0 5px 15px rgba(135, 92, 255, 0.4);
+            transition: all 0.25s ease;
+        }
 
-    .run-btn:hover {
-      background: linear-gradient(135deg, #9a74ff, #c3a7ff);
-      transform: scale(1.03);
-      box-shadow: 0 8px 20px rgba(155, 102, 255, 0.45);
-    }
+        .run-btn:hover {
+            background: linear-gradient(135deg, #9a74ff, #c3a7ff);
+            transform: scale(1.03);
+            box-shadow: 0 8px 20px rgba(155, 102, 255, 0.45);
+        }
 
-    .dropdown-options {
-      display: none;
-      position: absolute;
-      top: 115%;
-      left: 0;
-      background-color: #3a2e56;
-      border-radius: 8px;
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
-      width: 160px;
-      z-index: 10;
-    }
+        .dropdown-options {
+            display: none;
+            position: absolute;
+            top: 115%;
+            left: 0;
+            background-color: #3a2e56;
+            border-radius: 8px;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+            width: 160px;
+            z-index: 10;
+        }
 
-    .dropdown-options button {
-      background: none;
-      color: #e8e6f0;
-      padding: 0.8rem 1rem;
-      text-align: left;
-      width: 100%;
-      border: none;
-      cursor: pointer;
-      font-size: 0.9rem;
-    }
+        .dropdown-options button {
+            background: none;
+            color: #e8e6f0;
+            padding: 0.8rem 1rem;
+            text-align: left;
+            width: 100%;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
 
-    .dropdown-options button:hover {
-      background-color: #52406f;
-      color: #fff;
-    }
+        .dropdown-options button:hover {
+            background-color: #52406f;
+            color: #fff;
+        }
 
-    .dropdown-show {
-      display: block;
-    }
+        .dropdown-show {
+            display: block;
+        }
 
-    .results-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-      gap: 1.5rem;
-      width: 100%;
-      max-width: 900px;
-    }
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 1.5rem;
+            width: 100%;
+            max-width: 900px;
+        }
 
-    .metric-card {
-      background: var(--bg-day);
-      border-radius: 16px;
-      padding: 1.4rem 1.8rem;
-      box-shadow: var(--shadow-md);
-      text-align: left;
-      transition: transform 0.3s ease, background 0.3s ease;
-    }
+        .metric-card {
+            background: var(--bg-day);
+            border-radius: 16px;
+            padding: 1.4rem 1.8rem;
+            box-shadow: var(--shadow-md);
+            text-align: left;
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
 
-    .metric-card:hover {
-      transform: translateY(-4px);
-      background: var(--bg-day-hover);
-    }
+        .metric-card:hover {
+            transform: translateY(-4px);
+            background: var(--bg-day-hover);
+        }
 
-    .metric-card h3 {
-      font-size: 1rem;
-      color: var(--text-secondary);
-      margin-bottom: 0.5rem;
-    }
+        .metric-card h3 {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
 
-    .metric-card p {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--text-primary);
-    }
+        .metric-card p {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
 
-    .metric-card small {
-      color: var(--text-secondary);
-      font-size: 0.8rem;
-    }
-  </style>
+        .metric-card small {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+        }
+    </style>
 </head>
 
 <body>
-  <aside class="navbar">
-    <div class="logo"><span>LockedIn</span></div>
-    <nav>
-      <a href="/dashboard">Dashboard</a>
-      <a href="/" >Calendar</a>
-      <a href="/analytics" class="active">Analytics</a>
-    </nav>
-  </aside>
+    <aside class="navbar">
+        <div class="logo"><span>LockedIn</span></div>
+        <nav>
+            <a href="/dashboard">Dashboard</a>
+            <a href="/">Calendar</a>
+            <a href="/analytics" class="active">Analytics</a>
+        </nav>
+    </aside>
 
-  <main>
-    <div class="header">Analytics</div>
+    <main>
+        <div class="header">Analytics</div>
 
-    <div class="metrics-container">
-      <label>Time Window (hours):</label>
-      <input type="number" id="timeWindow" value="168" />
-      <label>Workload (hours):</label>
-      <input type="number" id="workload" value="60" />
+        <div class="metrics-container">
+            <label>Time Window (hours):</label>
+            <input type="number" id="timeWindow" value="168" />
+            <label>Workload (hours):</label>
+            <input type="number" id="workload" value="60" />
 
-      <div class="run-dropdown">
-        <button class="run-btn" id="runToggle">Run Algorithm ▾</button>
-        <div class="dropdown-options" id="dropdownMenu">
-          <button id="runHeap">Run Heap</button>
-          <button id="runBucket">Run Bucket</button>
+            <div class="run-dropdown">
+                <button class="run-btn" id="runToggle">Run Algorithm ▾</button>
+                <div class="dropdown-options" id="dropdownMenu">
+                    <button id="runHeap">Run Heap</button>
+                    <button id="runBucket">Run Bucket</button>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
 
-    <div class="results-grid">
-      <div class="metric-card">
-        <h3>Execution Time</h3>
-        <p id="execTime">-</p>
-        <small>Milliseconds</small>
-      </div>
-      <div class="metric-card">
-        <h3>Total Tasks</h3>
-        <p id="totalTasks">-</p>
-        <small>All loaded assignments</small>
-      </div>
-      <div class="metric-card">
-        <h3>Makespan</h3>
-        <p id="makespan">-</p>
-        <small>Hours to completion</small>
-      </div>
-      <div class="metric-card">
-        <h3>Tasks On Time</h3>
-        <p id="tasksOnTime">-</p>
-        <small>Finished before deadline</small>
-      </div>
-      <div class="metric-card">
-        <h3>Tasks Late</h3>
-        <p id="tasksLate">-</p>
-        <small>Missed deadlines</small>
-      </div>
-      <div class="metric-card">
-        <h3>On-Time Rate</h3>
-        <p id="onTimeRate">-</p>
-        <small>Percent on schedule</small>
-      </div>
-    </div>
+        <div class="results-grid">
+            <div class="metric-card">
+                <h3>Execution Time</h3>
+                <p id="execTime">-</p>
+                <small>Milliseconds</small>
+            </div>
+            <div class="metric-card">
+                <h3>Total Tasks</h3>
+                <p id="totalTasks">-</p>
+                <small>All loaded assignments</small>
+            </div>
+            <div class="metric-card">
+                <h3>Makespan</h3>
+                <p id="makespan">-</p>
+                <small>Hours to completion</small>
+            </div>
+            <div class="metric-card">
+                <h3>Tasks On Time</h3>
+                <p id="tasksOnTime">-</p>
+                <small>Finished before deadline</small>
+            </div>
+            <div class="metric-card">
+                <h3>Tasks Late</h3>
+                <p id="tasksLate">-</p>
+                <small>Missed deadlines</small>
+            </div>
+            <div class="metric-card">
+                <h3>On-Time Rate</h3>
+                <p id="onTimeRate">-</p>
+                <small>Percent on schedule</small>
+            </div>
+        </div>
 
-    <script>
-      const dropdownToggle = document.getElementById("runToggle");
-      const dropdownMenu = document.getElementById("dropdownMenu");
+        <script>
+            const dropdownToggle = document.getElementById("runToggle");
+            const dropdownMenu = document.getElementById("dropdownMenu");
 
-      dropdownToggle.addEventListener("click", (e) => {
-        e.stopPropagation();
-        dropdownMenu.classList.toggle("dropdown-show");
-      });
+            dropdownToggle.addEventListener("click", (e) => {
+                e.stopPropagation();
+                dropdownMenu.classList.toggle("dropdown-show");
+            });
 
-      document.addEventListener("click", (e) => {
-        if (!dropdownMenu.contains(e.target) && e.target !== dropdownToggle) {
-          dropdownMenu.classList.remove("dropdown-show");
-        }
-      });
-    </script>
-    <script src="/script.js"></script>
-  </main>
+            document.addEventListener("click", (e) => {
+                if (!dropdownMenu.contains(e.target) && e.target !== dropdownToggle) {
+                    dropdownMenu.classList.remove("dropdown-show");
+                }
+            });
+
+            const defaultSortMode = 'priority'; 
+
+            document.getElementById("runHeap").addEventListener("click", () => {
+                dropdownMenu.classList.remove("dropdown-show");
+                updateScheduleAndMetrics('heap', defaultSortMode, true); 
+            });
+
+            document.getElementById("runBucket").addEventListener("click", () => {
+                dropdownMenu.classList.remove("dropdown-show");
+                updateScheduleAndMetrics('bucket', defaultSortMode, true);
+            });
+        </script>
+        <script src="/script.js"></script>
+    </main>
 </body>
 </html>

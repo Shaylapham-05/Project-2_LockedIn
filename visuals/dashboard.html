@@ -1,89 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-    <link rel="stylesheet" href="/style.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LockedIn Dashboard</title>
+    <link rel="stylesheet" href="/style.css" />
     <style>
         body {
             display: flex;
             min-height: 100vh;
             background: var(--bg-primary);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            font-family: 'Inter', sans-serif;
         }
 
         main {
             flex: 1;
-            padding: 3rem;
             margin-left: 250px;
+            padding: 3rem 4rem;
             display: flex;
             flex-direction: column;
             gap: 2rem;
         }
 
-        h1 {
+        .navbar {
+            width: 250px;
+            background: var(--bg-secondary);
+            padding: 2rem 0;
+            position: fixed;
+            height: 100%;
+        }
+        .navbar a {
+            display: block;
+            color: var(--text-secondary);
+            padding: 0.8rem 2rem;
+            text-decoration: none;
+        }
+        .navbar a:hover, .navbar a.active {
+            background-color: var(--bg-hover);
+            color: var(--accent-primary);
+        }
+        .logo {
+            padding: 0 2rem 1.5rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+        }
+
+        .page-header {
             font-size: 2rem;
             font-weight: 700;
             color: var(--text-primary);
-            margin-bottom: 1rem;
-        }
-
-        .dashboard-container {
-            background: var(--bg-calendar);
-            border-radius: 24px;
-            box-shadow: var(--shadow-lg);
-            padding: 2.5rem;
-            width: 100%;
-        }
-
-        .summary-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-top: 1.5rem;
-        }
-
-        .summary-card {
-            background: var(--bg-day);
-            border-radius: 20px;
-            padding: 1.5rem 1.8rem;
-            box-shadow: var(--shadow-md);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: flex-start;
-            transition: transform 0.2s ease, background 0.3s ease;
-        }
-
-        .summary-card:hover {
-            transform: translateY(-3px);
-            background: var(--bg-day-hover);
-        }
-
-        .summary-title {
-            font-size: 0.95rem;
-            color: var(--text-secondary);
             margin-bottom: 0.5rem;
         }
 
-        .summary-value {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--text-primary);
-        }
-
-        .summary-subtext {
-            font-size: 0.85rem;
-            color: var(--text-faded);
-            margin-top: 0.3rem;
-        }
-
-        .progress-section {
+        .dashboard-layout {
             display: flex;
+            justify-content: space-between;
+            gap: 2.5rem;
+            width: 100%;
+        }
+
+        .left-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .metric-card {
+            background: #2d2442;
+            border-radius: 20px;
+            padding: 1.8rem 2rem;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+            transition: transform 0.3s ease;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .metric-title {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.3rem;
+        }
+
+        .metric-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+        }
+
+        .circle-graph {
+            background: #2f2646;
+            border-radius: 24px;
+            padding: 2rem;
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 3rem;
-            margin-top: 2rem;
         }
 
         .progress-ring {
@@ -112,104 +130,274 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            color: var(--text-primary);
+            color: white;
             font-size: 1.5rem;
             font-weight: 700;
         }
 
-        .details {
+        .right-panel {
+            flex: 1.5;
+            background: #2f2646;
+            border-radius: 24px;
+            padding: 2rem 2.5rem;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+            position: relative;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-header h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: white;
+            text-align: center;
+        }
+
+        .menu-toggle {
+            position: absolute;
+            right: 0;
+            background: var(--accent-primary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 38px;
+            height: 38px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(123, 76, 255, 0.5);
+            transition: background 0.3s ease;
+        }
+
+        .menu-toggle:hover {
+            background: var(--accent-hover);
+        }
+
+        .menu-dropdown {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 3rem;
+            background: #3c2f57;
+            border-radius: 10px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            z-index: 10;
+            min-width: 180px;
+        }
+
+        .menu-dropdown button {
+            display: block;
+            width: 100%;
+            padding: 0.9rem 1.2rem;
+            background: none;
+            color: #e8e6f0;
+            border: none;
             text-align: left;
-            max-width: 400px;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-size: 0.95rem;
         }
 
-        .details h2 {
-            font-size: 1.3rem;
-            color: var(--text-primary);
-            margin-bottom: 0.6rem;
+        .menu-dropdown button:hover {
+            background: #5b4a76;
         }
 
-        .details p {
-            color: var(--text-secondary);
+        .menu-show {
+            display: block;
+        }
+
+        .date-display {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .arrow-btn {
+            background: none;
+            border: none;
+            color: var(--accent-primary);
+            font-size: 1.8rem;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .arrow-btn:hover {
+            transform: scale(1.2);
+        }
+
+        .day-tasks {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            max-height: 60vh;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: #5b4a76 #2f2646;
+        }
+
+        .task-card {
+            background: #3a2e59;
+            border-radius: 16px;
+            padding: 1rem 1.3rem;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+            transition: 0.3s;
+        }
+
+        .task-card:hover {
+            background: #4b3b70;
+            transform: translateY(-2px);
+        }
+
+        .task-card h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 0.3rem;
+        }
+
+        .task-time {
+            color: #c9c5d6;
             font-size: 0.9rem;
-            line-height: 1.6;
         }
     </style>
 </head>
 
 <body>
     <aside class="navbar">
-        <div class="logo"><span>LockedIn</span></div>
+        <div class="logo">LockedIn</div>
         <nav>
-            <a href="/analytics" class="active">Dashboard</a>
+            <a href="/dashboard" class="active">Dashboard</a>
             <a href="/">Calendar</a>
+            
             <a href="/analytics">Analytics</a>
         </nav>
     </aside>
 
     <main>
-        <div class="dashboard-container">
-            <h1>Dashboard Overview</h1>
+        <h1 class="page-header">Dashboard</h1>
 
-            <div class="summary-grid">
-                <div class="summary-card">
-                    <div class="summary-title">Tasks Successfully Scheduled</div>
-                    <div class="summary-value" id="tasksScheduled">-</div>
-                    <div class="summary-subtext">Total tasks that fit your workload</div>
+        <div class="dashboard-layout">
+            <div class="left-panel">
+                <div class="metric-card">
+                    <div class="metric-title">Tasks Completed</div>
+                    <div class="metric-value" id="tasksCompleted">0</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-title">Missed Deadlines</div>
+                    <div class="metric-value" id="missedTasks">0</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-title">Tasks Left</div>
+                    <div class="metric-value" id="tasksLeft">0</div>
                 </div>
 
-                <div class="summary-card">
-                    <div class="summary-title">Tasks Finished On Time</div>
-                    <div class="summary-value" id="tasksOnTime">-</div>
-                    <div class="summary-subtext">Number of tasks meeting their deadline</div>
-                </div>
-
-                <div class="summary-card">
-                    <div class="summary-title">On-Time Completion Rate</div>
-                    <div class="summary-value" id="percentCompleted">-</div>
-                    <div class="summary-subtext">Percentage of tasks finished by deadline</div>
+                <div class="circle-graph">
+                    <div class="progress-ring">
+                        <svg width="150" height="150">
+                            <circle class="progress-ring__background" r="65" cx="75" cy="75"></circle>
+                            <circle class="progress-ring__progress" r="65" cx="75" cy="75"></circle>
+                        </svg>
+                        <div class="progress-text" id="completionRate">0%</div>
+                    </div>
+                    <p style="color: var(--text-secondary); margin-top: 1rem;">Completion Rate</p>
                 </div>
             </div>
 
-            <div class="progress-section">
-                <div class="progress-ring">
-                    <svg width="150" height="150">
-                        <circle class="progress-ring__background" r="65" cx="75" cy="75"></circle>
-                        <circle class="progress-ring__progress" r="65" cx="75" cy="75"></circle>
-                    </svg>
-                    <div class="progress-text" id="progressText">0%</div>
+            <div class="right-panel">
+                <div class="section-header">
+                    <h2>Daily Schedule</h2>
+                    <button class="menu-toggle" id="menuBtn">⋮</button>
+                    <div class="menu-dropdown" id="menuDropdown">
+                        <button data-mode="priority">Priority</button>
+                        <button data-mode="longevity">Longevity</button>
+                        <button data-mode="difficulty">Difficulty</button>
+                        <button id="loadTasksBtn">Load New Tasks</button>
+                    </div>
                 </div>
 
-                <div class="details">
-                    <h2>Performance Overview</h2>
-                    <p>This chart shows your overall task completion rate based on the scheduling algorithms. Data updates automatically after running your simulations.</p>
+                <div class="date-display">
+                    <button class="arrow-btn" id="prevDay">‹</button>
+                    <h3 id="currentDay">Sunday, April 6, 2025</h3>
+                    <button class="arrow-btn" id="nextDay">›</button>
+                </div>
+
+                <div class="day-tasks" id="taskList">
+
                 </div>
             </div>
         </div>
     </main>
 
     <script>
-        async function loadDashboardMetrics() {
-            const response = await fetch("/run", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ mode: "heap", time_window: 168, workload: 60 })
+        let currentSortMode = 'priority';
+        let currentScheduleMode = 'heap';
+        let scheduleMetrics = null;
+
+        const menuBtn = document.getElementById("menuBtn");
+        const menuDropdown = document.getElementById("menuDropdown");
+        const taskListEl = document.getElementById("taskList");
+        const completionRateEl = document.getElementById("completionRate");
+
+        function renderSchedule(tasks) {
+            taskListEl.innerHTML = '';
+            let cumulativeTime = 9 * 60;
+
+            if (!tasks || tasks.length === 0) {
+                taskListEl.innerHTML = '<div style="color: var(--text-secondary); text-align: center; padding: 2rem;">No tasks scheduled within the workload limit.</div>';
+                return;
+            }
+
+            tasks.forEach((task) => {
+                const lengthMinutes = task.length * 60;
+
+                const startHour = Math.floor(cumulativeTime / 60) % 24;
+                const startMinute = cumulativeTime % 60;
+
+                const endMinuteTotal = cumulativeTime + lengthMinutes;
+                const endHour = Math.floor(endMinuteTotal / 60) % 24;
+                const endMinute = endMinuteTotal % 60;
+
+                const formatTime = (h, m) => {
+                    const period = h >= 12 ? 'PM' : 'AM';
+                    const hour = h % 12 || 12;
+                    const minute = m.toString().padStart(2, '0');
+                    return `${hour}:${minute} ${period}`;
+                };
+
+                const card = document.createElement('div');
+                card.className = 'task-card';
+                card.innerHTML = `
+                    <h3>${task.assignment_type || 'Task'} (Value: ${task.value})</h3>
+                    <div class="task-time">${formatTime(startHour, startMinute)} – ${formatTime(endHour, endMinute)}</div>
+                `;
+                taskListEl.appendChild(card);
+
+                cumulativeTime = endMinuteTotal;
             });
+        }
 
-            const data = await response.json();
-
-            const metrics = data.heap || data.bucket || {};
-
-            const totalTasks = metrics.total_tasks_in || 0;
+        function updateMetricCards(metrics) {
+            const total = metrics.total_tasks_in || 0;
             const onTime = metrics.tasks_on_time || 0;
             const late = metrics.tasks_late || 0;
-            const onTimeRate = metrics.on_time_rate || 0;
+            const onTimeRate = metrics.on_time_rate || 0; 
 
-            const percent = Math.round(onTimeRate * 100); 
+            const percent = Math.round(onTimeRate * 100);
+            const scheduled = onTime + late;
+            const left = total - scheduled;
 
-            document.getElementById("tasksScheduled").textContent = totalTasks; 
-            document.getElementById("tasksOnTime").textContent = onTime;
-            document.getElementById("percentCompleted").textContent = percent + "%";
-            document.getElementById("progressText").textContent = percent + "%";
+            document.getElementById("tasksCompleted").textContent = scheduled;
+            document.getElementById("missedTasks").textContent = late;
+            document.getElementById("tasksLeft").textContent = left;
+            completionRateEl.textContent = percent + "%";
 
             const progressCircle = document.querySelector(".progress-ring__progress");
             const radius = 65;
@@ -220,7 +408,103 @@
             progressCircle.style.strokeDashoffset = offset;
         }
 
-        window.onload = loadDashboardMetrics;
+        async function triggerSimulation(sortMode, forceNewSample) {
+            const input = {
+                mode: currentScheduleMode,
+                time_window: 168, 
+                workload: 60,
+                sort_mode: sortMode
+            };
+
+            if (!forceNewSample && scheduleMetrics) {
+                const metrics = scheduleMetrics[currentScheduleMode];
+                if (metrics && metrics.tasks_list) {
+                    renderSchedule(metrics.tasks_list);
+                    updateMetricCards(metrics);
+                }
+                return;
+            }
+
+            try {
+                const response = await fetch("/run", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(input)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                if (data.error) {
+                    alert(`Simulation Error: ${data.error}`);
+                    return;
+                }
+
+                scheduleMetrics = data; 
+                const currentMetrics = data[currentScheduleMode];
+
+                if (currentMetrics && currentMetrics.hasOwnProperty('tasks_list')) {
+                    renderSchedule(currentMetrics.tasks_list);
+                    updateMetricCards(currentMetrics);
+                } else {
+                    taskListEl.innerHTML = '<div style="color: red; text-align: center; padding: 2rem;">Error: Incomplete data received from server. Missing tasks_list.</div>';
+                }
+
+            } catch (err) {
+                console.error("Fetch error:", err);
+                alert("Backend not responding or server crashed.");
+            }
+        }
+
+        menuBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            menuDropdown.classList.toggle("menu-show");
+        });
+
+        document.addEventListener("click", (e) => {
+            if (!menuDropdown.contains(e.target) && e.target !== menuBtn) {
+                menuDropdown.classList.remove("menu-show");
+            }
+        });
+
+        document.querySelectorAll('.menu-dropdown button').forEach(button => {
+            if (button.id !== 'loadTasksBtn') {
+                button.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    currentSortMode = e.target.getAttribute('data-mode'); 
+                    menuDropdown.classList.remove("menu-show");
+                    triggerSimulation(currentSortMode, false); 
+                });
+            }
+        });
+
+        document.getElementById("loadTasksBtn").addEventListener("click", () => {
+            menuDropdown.classList.remove("menu-show");
+            triggerSimulation(currentSortMode, true);
+        });
+
+        window.onload = () => triggerSimulation(currentSortMode, true);
+
+        const days = [
+            "Sunday, April 6, 2025", "Monday, April 7, 2025", "Tuesday, April 8, 2025", 
+            "Wednesday, April 9, 2025", "Thursday, April 10, 2025", "Friday, April 11, 2025", 
+            "Saturday, April 12, 2025"
+        ];
+        let currentDayIndex = 0;
+        const currentDayEl = document.getElementById("currentDay");
+
+        document.getElementById("nextDay").addEventListener("click", () => {
+            currentDayIndex = (currentDayIndex + 1) % days.length;
+            currentDayEl.textContent = days[currentDayIndex];
+        });
+
+        document.getElementById("prevDay").addEventListener("click", () => {
+            currentDayIndex = (currentDayIndex - 1 + days.length) % days.length;
+            currentDayEl.textContent = days[currentDayIndex];
+        });
     </script>
 </body>
 </html>

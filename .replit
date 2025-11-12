@@ -25,13 +25,13 @@ args = "web-server"
 name = "web-server"
 author = "agent"
 
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "python server.py"
-waitForPort = 5000
-
 [workflows.workflow.metadata]
 outputType = "webview"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python main.py"
+waitForPort = 5000
 
 [[ports]]
 localPort = 81
@@ -42,16 +42,16 @@ localPort = 5000
 externalPort = 80
 
 [[ports]]
-localPort = 8080
-externalPort = 8080
-
-[[ports]]
 localPort = 34463
 externalPort = 5173
 
 [[ports]]
 localPort = 34929
 externalPort = 5000
+
+[[ports]]
+localPort = 36481
+externalPort = 8008
 
 [[ports]]
 localPort = 41013
@@ -72,6 +72,14 @@ externalPort = 3002
 [[ports]]
 localPort = 43677
 externalPort = 3001
+
+[[ports]]
+localPort = 44801
+externalPort = 8099
+
+[[ports]]
+localPort = 45581
+externalPort = 8081
 
 [[ports]]
 localPort = 46275
