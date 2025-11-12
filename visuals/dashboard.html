@@ -1,171 +1,226 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Scheduler Dashboard</title>
-  <link rel="stylesheet" href="/style.css">
-  <style>
-    main {
-      flex: 1;
-      padding: 3rem;
-      margin-left: 250px;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="/style.css">
+    <style>
+        body {
+            display: flex;
+            min-height: 100vh;
+            background: var(--bg-primary);
+        }
 
-    h1 {
-      font-size: 2rem;
-      font-weight: 700;
-      margin-bottom: 2rem;
-      color: var(--text-primary);
-    }
+        main {
+            flex: 1;
+            padding: 3rem;
+            margin-left: 250px;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
 
-    .input-section {
-      background: #2f2646;
-      border-radius: 20px;
-      padding: 1.8rem 2.5rem;
-      box-shadow: var(--shadow-md);
-      width: 600px;
-      margin-bottom: 2rem;
-    }
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
 
-    label {
-      margin-right: 0.5rem;
-      font-weight: 500;
-    }
+        .dashboard-container {
+            background: var(--bg-calendar);
+            border-radius: 24px;
+            box-shadow: var(--shadow-lg);
+            padding: 2.5rem;
+            width: 100%;
+        }
 
-    input {
-      background: var(--bg-day);
-      border: none;
-      border-radius: 8px;
-      padding: 0.5rem;
-      color: var(--text-primary);
-      width: 80px;
-      text-align: center;
-      margin-right: 1rem;
-    }
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
 
-    .run-dropdown {
-      position: relative;
-      display: inline-block;
-      margin-top: 1rem;
-    }
+        .summary-card {
+            background: var(--bg-day);
+            border-radius: 20px;
+            padding: 1.5rem 1.8rem;
+            box-shadow: var(--shadow-md);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            transition: transform 0.2s ease, background 0.3s ease;
+        }
 
-    .run-btn {
-      background-color: var(--accent-primary);
-      color: white;
-      padding: 0.9rem 1.6rem;
-      font-size: 1rem;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: background 0.3s;
-    }
+        .summary-card:hover {
+            transform: translateY(-3px);
+            background: var(--bg-day-hover);
+        }
 
-    .run-btn:hover {
-      background-color: var(--accent-hover);
-    }
+        .summary-title {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
 
-    .dropdown-options {
-      display: none;
-      position: absolute;
-      top: 110%; 
-      left: 0;
-      background-color: #3c2f57;
-      border-radius: 8px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-      min-width: 180px;
-      z-index: 10;
-    }
+        .summary-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
 
-    .dropdown-options button {
-      background: none;
-      color: #e8e6f0;
-      padding: 0.8rem 1.2rem;
-      text-align: left;
-      width: 100%;
-      border: none;
-      cursor: pointer;
-    }
+        .summary-subtext {
+            font-size: 0.85rem;
+            color: var(--text-faded);
+            margin-top: 0.3rem;
+        }
 
-    .dropdown-options button:hover {
-      background-color: #4b3a68;
-      color: white;
-    }
+        .progress-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 2rem;
+        }
 
-    .run-dropdown:hover .dropdown-options {
-      display: block;
-    }
+        .progress-ring {
+            position: relative;
+            width: 150px;
+            height: 150px;
+        }
 
-    h2 {
-      margin-top: 2rem;
-      color: var(--text-primary);
-      font-size: 1.4rem;
-    }
+        .progress-ring circle {
+            fill: none;
+            stroke-width: 10;
+            stroke-linecap: round;
+        }
 
-    ul {
-      list-style-type: none;
-      padding: 0;
-    }
+        .progress-ring__background {
+            stroke: #3d2f57;
+        }
 
-    li {
-      margin-bottom: 0.6rem;
-      background: var(--bg-day);
-      padding: 0.8rem 1rem;
-      border-radius: 8px;
-      width: 340px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: var(--shadow-sm);
-    }
+        .progress-ring__progress {
+            stroke: var(--accent-primary);
+            transition: stroke-dashoffset 0.5s ease;
+        }
 
-    strong {
-      color: var(--accent-primary);
-    }
-  </style>
+        .progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .details {
+            text-align: left;
+            max-width: 400px;
+        }
+
+        .details h2 {
+            font-size: 1.3rem;
+            color: var(--text-primary);
+            margin-bottom: 0.6rem;
+        }
+
+        .details p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+    </style>
 </head>
 
 <body>
-  <aside class="navbar">
-    <div class="logo"><span>LockedIn</span></div>
-    <nav>
-      <a href="/dashboard" class="active">Dashboard</a>
-      <a href="/">Calendar</a>
-      <a href="#">Schedule</a>
-      <a href="#">Analytics</a>
-    </nav>
-  </aside>
+    <aside class="navbar">
+        <div class="logo"><span>LockedIn</span></div>
+        <nav>
+            <a href="/analytics" class="active">Dashboard</a>
+            <a href="/">Calendar</a>
+            <a href="/analytics">Analytics</a>
+        </nav>
+    </aside>
 
-  <main>
-    <h1>Scheduler Dashboard</h1>
+    <main>
+        <div class="dashboard-container">
+            <h1>Dashboard Overview</h1>
 
-    <div class="input-section">
-      <label>Time Window (hours):</label>
-      <input type="number" id="timeWindow" value="168">
-      <label>Workload (hours):</label>
-      <input type="number" id="workload" value="60">
+            <div class="summary-grid">
+                <div class="summary-card">
+                    <div class="summary-title">Tasks Successfully Scheduled</div>
+                    <div class="summary-value" id="tasksScheduled">-</div>
+                    <div class="summary-subtext">Total tasks that fit your workload</div>
+                </div>
 
-      <div class="run-dropdown">
-        <button class="run-btn">Run Algorithm ▾</button>
-        <div class="dropdown-options">
-          <button id="runHeap">Run Heap</button>
-          <button id="runBucket">Run Bucket</button>
+                <div class="summary-card">
+                    <div class="summary-title">Tasks Finished On Time</div>
+                    <div class="summary-value" id="tasksOnTime">-</div>
+                    <div class="summary-subtext">Number of tasks meeting their deadline</div>
+                </div>
+
+                <div class="summary-card">
+                    <div class="summary-title">On-Time Completion Rate</div>
+                    <div class="summary-value" id="percentCompleted">-</div>
+                    <div class="summary-subtext">Percentage of tasks finished by deadline</div>
+                </div>
+            </div>
+
+            <div class="progress-section">
+                <div class="progress-ring">
+                    <svg width="150" height="150">
+                        <circle class="progress-ring__background" r="65" cx="75" cy="75"></circle>
+                        <circle class="progress-ring__progress" r="65" cx="75" cy="75"></circle>
+                    </svg>
+                    <div class="progress-text" id="progressText">0%</div>
+                </div>
+
+                <div class="details">
+                    <h2>Performance Overview</h2>
+                    <p>This chart shows your overall task completion rate based on the scheduling algorithms. Data updates automatically after running your simulations.</p>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
+    </main>
 
-    <h2>Results</h2>
-    <ul>
-      <li><strong>Execution Time:</strong> <span id="execTime">-</span> ms</li>
-      <li><strong>Total Tasks:</strong> <span id="totalTasks">-</span></li>
-      <li><strong>Makespan:</strong> <span id="makespan">-</span> hrs</li>
-      <li><strong>Tasks On Time:</strong> <span id="tasksOnTime">-</span></li>
-      <li><strong>Tasks Late:</strong> <span id="tasksLate">-</span></li>
-      <li><strong>On-Time Rate:</strong> <span id="onTimeRate">-</span></li>
-    </ul>
+    <script>
+        async function loadDashboardMetrics() {
+            const response = await fetch("/run", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ mode: "heap", time_window: 168, workload: 60 })
+            });
 
-    <script src="/script.js"></script>
-  </main>
+            const data = await response.json();
+
+            const metrics = data.heap || data.bucket || {};
+
+            const totalTasks = metrics.total_tasks_in || 0;
+            const onTime = metrics.tasks_on_time || 0;
+            const late = metrics.tasks_late || 0;
+            const onTimeRate = metrics.on_time_rate || 0;
+
+            const percent = Math.round(onTimeRate * 100); 
+
+            document.getElementById("tasksScheduled").textContent = totalTasks; 
+            document.getElementById("tasksOnTime").textContent = onTime;
+            document.getElementById("percentCompleted").textContent = percent + "%";
+            document.getElementById("progressText").textContent = percent + "%";
+
+            const progressCircle = document.querySelector(".progress-ring__progress");
+            const radius = 65;
+            const circumference = 2 * Math.PI * radius;
+            const offset = circumference - (percent / 100) * circumference;
+
+            progressCircle.style.strokeDasharray = `${circumference} ${circumference}`;
+            progressCircle.style.strokeDashoffset = offset;
+        }
+
+        window.onload = loadDashboardMetrics;
+    </script>
 </body>
 </html>

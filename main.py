@@ -19,16 +19,28 @@ def serve_dashboard():
     print("Serving dashboard.html from:", VISUALS_DIR)
     return send_from_directory(VISUALS_DIR, "dashboard.html")
 
+@app.route("/schedule")
+def serve_schedule():
+    print("Serving schedule.html from:", VISUALS_DIR)
+    return send_from_directory(VISUALS_DIR, "schedule.html")
+
+@app.route("/analytics")
+def serve_analytics():
+    print("Serving analytics.html from:", VISUALS_DIR)
+    return send_from_directory(VISUALS_DIR, "analytics.html")
+
 @app.route("/run", methods=["POST"])
 def run_algorithm():
     data = request.get_json()
     time_window = float(data.get("time_window", 168))
     workload = float(data.get("workload", 60))
     mode = data.get("mode", "heap")
-    results = run_simulation(time_window, workload)
+    sort_mode = data.get("sort_mode", "priority") 
+
+    results = run_simulation(time_window, workload, sort_mode) 
     return jsonify(results.get(mode, {}))
 
 
 if __name__ == "__main__":
     print(f"Serving Flask from: {VISUALS_DIR}")
-    app.run(host="0.0.0.0", port=8080, debug=True)
+    app.run(host="0.0.0.0", port=0, debug=True)
