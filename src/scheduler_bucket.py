@@ -29,4 +29,8 @@ def schedule_from_buckets(assignments: List['Assignment']) -> List[Tuple['Assign
             end_time = start_time + a.longevity
             schedule.append((a, start_time, end_time))
             clock = end_time
+<<<<<<< HEAD
     return schedule
+=======
+    return schedule
+>>>>>>> 47f0e8cfab82e2e827f045ad984f5c29716a187b
