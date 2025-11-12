@@ -31,7 +31,7 @@ def run_algorithm():
     sort_mode = data.get("sort_mode", "priority") 
 
    
-    results = run_simulation(time_window, workload) 
+    results = run_simulation(time_window, workload, sort_mode) 
 
 
     if "error" in results:
@@ -42,4 +42,4 @@ def run_algorithm():
 
 if __name__ == '__main__':
     print(f"Serving Flask from: {VISUALS_DIR}")
-    app.run(host='0.0.0.0', port=0, debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)

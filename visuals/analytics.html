@@ -223,6 +223,48 @@
 
             const defaultSortMode = 'priority'; 
 
+            async function updateScheduleAndMetrics(mode, sortMode, forceRun) {
+                const timeWindow = parseFloat(document.getElementById('timeWindow').value);
+                const workload = parseFloat(document.getElementById('workload').value);
+
+                const input = {
+                    mode: mode,
+                    time_window: timeWindow,
+                    workload: workload,
+                    sort_mode: sortMode
+                };
+
+                try {
+                    const response = await fetch("/run", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(input)
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+
+                    const data = await response.json();
+
+                    if (data.error) {
+                        alert(`Error: ${data.error}`);
+                        return;
+                    }
+
+                    document.getElementById('execTime').textContent = (data.exec_time * 1000).toFixed(2);
+                    document.getElementById('totalTasks').textContent = data.total_tasks_in || 0;
+                    document.getElementById('makespan').textContent = data.makespan ? data.makespan.toFixed(2) : '-';
+                    document.getElementById('tasksOnTime').textContent = data.tasks_on_time || 0;
+                    document.getElementById('tasksLate').textContent = data.tasks_late || 0;
+                    document.getElementById('onTimeRate').textContent = data.on_time_rate ? (data.on_time_rate * 100).toFixed(1) + '%' : '-';
+
+                } catch (err) {
+                    console.error("Fetch error:", err);
+                    alert("Backend not responding or server error: " + err.message);
+                }
+            }
+
             document.getElementById("runHeap").addEventListener("click", () => {
                 dropdownMenu.classList.remove("dropdown-show");
                 updateScheduleAndMetrics('heap', defaultSortMode, true); 

@@ -67,13 +67,13 @@ def filter_and_sample_tasks(assignments: List[Assignment], time_window: float, w
     return student_tasks
 
 
-def run_simulation(time_window: float, workload: float):
+def run_simulation(time_window: float, workload: float, sort_mode: str):
     try:
         assignments = load_assignments("data/tasks.csv")
         if not assignments:
             return {"error": "No assignments loaded"}
 
-        student_tasks = filter_and_sample_tasks(assignments, time_window, workload) 
+        student_tasks = filter_and_sample_tasks(assignments, time_window, workload, sort_mode) 
 
       
         tasks_details = []
