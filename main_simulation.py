@@ -31,26 +31,59 @@ def load_assignments(filename: str = "data/tasks.csv") -> List[Assignment]:
         return []
 
 
-def filter_and_sample_tasks(assignments: List[Assignment], time_window: float, workload: float) -> List[Assignment]:
+def filter_and_sample_tasks(assignments: List[Assignment], time_window: float, workload: float, sort_mode: str) -> List[Assignment]:
     tasks_in_window = [a for a in assignments if a.due_date <= time_window]
-    random.shuffle(tasks_in_window)
+
+    target_sample_size = 25
+
+    if len(tasks_in_window) >= target_sample_size:
+        tasks_in_window.sort(key=lambda t: t.due_date)
+        sampled_tasks = tasks_in_window[:target_sample_size]
+    else:
+        sampled_tasks = tasks_in_window
+
+    if sort_mode == 'priority':
+        sort_key = lambda t: t.due_date
+        sampled_tasks.sort(key=sort_key)
+    elif sort_mode == 'longevity':
+        sort_key = lambda t: t.longevity
+        sampled_tasks.sort(key=sort_key)
+    elif sort_mode == 'difficulty':
+        sort_key = lambda t: t.value
+        sampled_tasks.sort(key=sort_key, reverse=True)
+
     student_tasks = []
     current_workload = 0.0
-    for t in tasks_in_window:
+
+    for t in sampled_tasks:
         if current_workload + t.longevity <= workload:
             student_tasks.append(t)
             current_workload += t.longevity
+
     return student_tasks
 
 
-def run_simulation(time_window: float, workload: float):
+def run_simulation(time_window: float, workload: float, sort_mode: str):
     try:
         assignments = load_assignments("data/tasks.csv")
         if not assignments:
             return {"error": "No assignments loaded"}
 
-        student_tasks = filter_and_sample_tasks(assignments, time_window, workload)
+        student_tasks = filter_and_sample_tasks(assignments, time_window, workload, sort_mode) 
+
+        tasks_details = []
+        for task in student_tasks:
+            tasks_details.append({
+                "id": task.assignment_id,
+                "due": f"{task.due_date:.2f}",
+                "length": f"{task.longevity:.2f}",
+                "value": task.value
+            })
         total_tasks_in = len(student_tasks)
+
+        print(f"\n Randomly Selected Tasks ({len(student_tasks)}) for Simulation:")
+        for task in student_tasks:
+            print(f"ID: {task.assignment_id}, Due: {task.due_date:.2f}, Length: {task.longevity:.2f}, Value: {task.value}")
 
         start_heap = time.perf_counter()
         schedule_heap = schedule_minheap(student_tasks)
